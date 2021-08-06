@@ -15,7 +15,6 @@ const Chat = () => {
     }, [roomId])
 
     useEffect(()=>{
-        console.log(`the room id is ${roomId}`);
       if(roomId){
           db.collection('rooms').doc(roomId).onSnapshot(snapshot => (
               setRoomName(snapshot.data().name)
