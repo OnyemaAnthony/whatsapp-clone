@@ -4,10 +4,12 @@ import Chat from "./componets/Chat";
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 import {useState} from "react";
 import Login from "./componets/Login";
+import {useStateValue} from "./StateProvider";
 
 
 function App() {
-    const [user,setUser]= useState(null);
+    //const [user,setUser]= useState(null);
+    const [{user}, dispatch] = useStateValue();
     return (
         <div className="app">
             {!user ?(
