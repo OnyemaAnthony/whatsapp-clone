@@ -5,6 +5,7 @@ import {AttachFile, InsertEmoticon, Mic, MoreVert, SearchOutlined} from "@materi
 import {useParams} from  'react-router-dom'
 import db from "../firebase";
 import {useStateValue} from "../StateProvider";
+import firebase from "firebase";
 
 const Chat = () => {
     const [seed, setSeed] = useState(0);
@@ -36,6 +37,7 @@ const Chat = () => {
         db.collection('rooms').doc(roomId)
             .collection('messages').add({
             messages:input,
+            timestamp:firebase.firestore.FieldValue.serverTimestamp(),
 
         });
 
