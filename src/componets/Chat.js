@@ -7,6 +7,7 @@ import db from "../firebase";
 import {useStateValue} from "../StateProvider";
 import firebase from "firebase";
 
+
 const Chat = () => {
     const [seed, setSeed] = useState(0);
     const [input,setInput] = useState('');
@@ -25,14 +26,16 @@ const Chat = () => {
           ));
           db.collection('rooms').doc(roomId)
               .collection('messages')
-              .orderBy('timestamp','desc')
+              .orderBy('timestamp','asc')
               .onSnapshot(snapshot =>(
-                  setMessages(snapshot.docs.map((doc)=>doc.data()))
+                  setMessages(snapshot.docs.map(doc=>doc.data()))
               ) );
       }
     },[roomId]);
+
     const  sendMessage = (event)=>{
         event.preventDefault();
+        console.log('before send message');
 
         db.collection('rooms').doc(roomId)
             .collection('messages').add({
@@ -41,7 +44,9 @@ const Chat = () => {
 
         });
 
-     setInput("");
+    }
+    const  cleanInput = ()=>{
+        setInput('');
     }
     return (
         <div className='chat'>
@@ -69,10 +74,10 @@ const Chat = () => {
             </div>
 
             <div className="chat_body">
+
                 {messages.map(message=>(
                     <p className={`chat_message ${true && "chat_receiver"} `}>
                         <span className='chat_name'>{message.name}</span>{message.message}
-
                         <span className='chat_timestamp'>{new Date(message.timestamp?.toDate()).toUTCString()}</span>
 
                     </p>
@@ -84,8 +89,8 @@ const Chat = () => {
             <div className="chat_footer">
                 <InsertEmoticon/>
                 <form >
-                    <input onChange={event => setInput(event.target.value)} placeholder='Type a message' type="text"/>
-                    <button onClick={sendMessage} type={"submit"}>Send message</button>
+                    <input onSubmit={cleanInput} onChange={event => setInput(event.target.value)} placeholder='Type a message' type="text"/>
+                    <button onClick={sendMessage} >Send message</button>
                 </form>
                 <Mic/>
             </div>
