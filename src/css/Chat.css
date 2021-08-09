@@ -67,6 +67,11 @@
     padding: 10px;
     border: none;
 }
+.chat_footer > form > input:focus{
+    outline: none;
+
+
+}
 
 .chat_body {
     flex: 1;

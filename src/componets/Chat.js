@@ -32,7 +32,6 @@ const Chat = () => {
       }
     },[roomId]);
     const  sendMessage = (event)=>{
-        console.log(`the input is ${input}`);
         event.preventDefault();
 
         db.collection('rooms').doc(roomId)
@@ -42,7 +41,7 @@ const Chat = () => {
 
         });
 
-     setInput('');
+     setInput("");
     }
     return (
         <div className='chat'>
@@ -71,12 +70,13 @@ const Chat = () => {
 
             <div className="chat_body">
                 {messages.map(message=>(
-                    <p className={`chat_message chat_receiver `}>
+                    <p className={`chat_message ${true && "chat_receiver"} `}>
                         <span className='chat_name'>{message.name}</span>{message.message}
 
-                        <span className='chat_timestamp'>{new Date(message?.timestamp.toDate()).toUTCString()}</span>
+                        <span className='chat_timestamp'>{new Date(message.timestamp?.toDate()).toUTCString()}</span>
 
                     </p>
+
                 ))}
 
 
