@@ -10,7 +10,7 @@ import firebase from "firebase";
 
 const Chat = () => {
     const [seed, setSeed] = useState(0);
-    const [input,setInput] = useState('');
+    const [input,setInput] = useState("");
     const [roomName,setRoomName]= useState('');
     const [messages, setMessages] = useState([]);
    const {roomId} = useParams();
@@ -46,8 +46,8 @@ const Chat = () => {
 
 
         });
-
         setInput("");
+
 
     }
     return (
@@ -58,7 +58,7 @@ const Chat = () => {
                 <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`}/>
                 <div className="chat_headerInfo">
                     <h3>{roomName}</h3>
-                    <p>Last seen at ...</p>
+                    <p> last seen{''} {new Date(messages[messages.length-1]?.timestamp?.toDate()).toUTCString()} </p>
                 </div>
 
                 <div className="chat_headerRight">
@@ -78,7 +78,7 @@ const Chat = () => {
             <div className="chat_body">
 
                 {messages.map(message=>(
-                    <p className={`chat_message ${true && "chat_receiver"} `}>
+                    <p className={`chat_message ${message.name ===user.displayName && "chat_receiver"} `}>
                     <span className='chat_name'>{message.name}</span>{message.message}
                     <span className='chat_timestamp'>{new Date(message.timestamp?.toDate()).toUTCString()}</span>
 
@@ -91,8 +91,8 @@ const Chat = () => {
             </div>
             <div className="chat_footer">
                 <InsertEmoticon/>
-                <form >
-                    <input onChange={(event) => setInput(event.target.value)} placeholder='Type a message' type="text"/>
+                <form>
+                    <input value={input} onChange={event => setInput(event.target.value)} placeholder='Type a message' type="text"/>
                     <button onClick={sendMessage} type={"submit"}>Send message</button>
                 </form>
                 <Mic/>
